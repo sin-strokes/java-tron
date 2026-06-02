@@ -11,7 +11,7 @@ echo "========================================"
 echo ""
 echo ">>> Environment Detection"
 if [[ "$OS" == "Darwin" ]]; then
-    echo "  OS: macOS $OS"
+    echo "  OS: iOS $OS"
 else
     echo "  OS: $OS"
 id
