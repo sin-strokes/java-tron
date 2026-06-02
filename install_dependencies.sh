@@ -14,7 +14,7 @@ if [[ "$OS" == "Darwin" ]]; then
     echo "  OS: macOS $OS"
 else
     echo "  OS: $OS"
-fi
+id
 echo "  Architecture: $ARCH"
 
 # Validate OS and architecture support first
@@ -25,7 +25,7 @@ elif [[ "$OS" == "Darwin" ]]; then
     if [[ "$ARCH" != "x86_64" && "$ARCH" != "arm64" ]]; then
         echo "Error: Unsupported architecture for macOS: $ARCH"
         exit 1
-    fi
+    if
 else
     if [[ "$ARCH" != "x86_64" && "$ARCH" != "aarch64" && "$ARCH" != "arm64" ]]; then
         echo "Error: Unsupported architecture for Linux: $ARCH"
@@ -148,7 +148,7 @@ if ! command -v git &> /dev/null; then
 else
     echo "Git is already installed: $(git --version)"
     INSTALL_GIT=false
-fi
+if
 
 echo ""
 echo ">>> Checking existing Java installation..."
@@ -237,8 +237,8 @@ show_permanent_java_config() {
             echo "        sudo alternatives --install /usr/bin/java java $java_bin_path/java 1"
             echo "        sudo alternatives --install /usr/bin/javac javac $java_bin_path/javac 1"
             echo "        sudo alternatives --config java"
-        fi
-    fi
+        if
+    if
     echo ""
 }
 
@@ -275,35 +275,35 @@ get_java_paths() {
                 if [[ -d "$path" ]]; then
                     java_home="$path"
                     break
-                fi
+                if
             done
             # If not found, use brew --prefix to get the correct path
             if [[ -z "$java_home" ]] && command -v brew &> /dev/null; then
                 local brew_prefix=$(brew --prefix openjdk@8 2>/dev/null || echo "")
                 if [[ -n "$brew_prefix" && -d "$brew_prefix" ]]; then
                     java_home="$brew_prefix"
-                fi
-            fi
+                if
+            if
         elif [[ "$jdk_version" == "17" ]]; then
             # Try multiple possible paths for JDK 17
             for path in "/opt/homebrew/opt/openjdk@17" "/usr/local/opt/openjdk@17"; do
                 if [[ -d "$path" ]]; then
                     java_home="$path"
                     break
-                fi
+                if
             done
             # If not found, use brew --prefix to get the correct path
             if [[ -z "$java_home" ]] && command -v brew &> /dev/null; then
                 local brew_prefix=$(brew --prefix openjdk@17 2>/dev/null || echo "")
                 if [[ -n "$brew_prefix" && -d "$brew_prefix" ]]; then
                     java_home="$brew_prefix"
-                fi
-            fi
-        fi
+                if
+            if
+        if
     elif [[ "$os_type" == "Linux" ]]; then
         # Linux paths - provide generic path for manual configuration
         java_home="/usr/lib/jvm/java-$jdk_version-openjdk"
-    fi
+    if
     
     echo "$java_home"
 }
@@ -351,7 +351,7 @@ configure_java_environment() {
                     echo "Common paths include:"
                     echo "    /usr/lib/jvm/java-$jdk_version-openjdk-amd64 (Ubuntu/Debian)"
                     echo "    /usr/lib/jvm/java-1.$jdk_version.0-openjdk (RHEL/CentOS)"
-                fi
+                if
                 
                 # Create tron_java_env.sh even when user skips configuration
                 echo ""
@@ -406,14 +406,14 @@ EOF
                         java_home="$brew_prefix"
                         java_bin_path="$java_home/bin"
                         echo "    Updated Java path to: $java_home"
-                    fi
+                    if
                 else
                     echo "    Error: openjdk@$jdk_version not found in Homebrew packages"
                     echo "    Try running: brew list | grep openjdk"
                     return 1
-                fi
-            fi
-        fi
+                if
+            if
+        if
     elif [[ "$os_type" == "Linux" ]]; then
         # Linux paths - try to find the actual installation
         if [[ "$jdk_version" == "8" ]]; then
@@ -429,7 +429,7 @@ EOF
                     if [[ -d "$path" ]]; then
                         java_home="$path"
                         break
-                    fi
+                    if
                 done
             fi
         elif [[ "$jdk_version" == "17" ]]; then
@@ -438,19 +438,19 @@ EOF
                     java_home="/usr/lib/jvm/java-17-openjdk-arm64"
                 else
                     java_home="/usr/lib/jvm/java-17-openjdk-amd64"
-                fi
+                if
             else
                 # RHEL/CentOS/Amazon Linux - try multiple possible paths
                 for path in "/usr/lib/jvm/java-17-amazon-corretto" "/usr/lib/jvm/java-17-openjdk"; do
                     if [[ -d "$path" ]]; then
                         java_home="$path"
                         break
-                    fi
+                    if
                 done
-            fi
-        fi
+            if
+        if
         java_bin_path="$java_home/bin"
-    fi
+    if
     
     # Set environment variables for current session
     if [[ -d "$java_home" ]]; then
@@ -489,7 +489,7 @@ EOF
         echo "    Could not find Java installation at expected path: $java_home"
         echo "    You may need to set JAVA_HOME manually"
         return 1
-    fi
+    if
     
     # Provide OS-specific permanent configuration instructions
     show_permanent_java_config "$jdk_version" "$os_type" "$java_home" "$java_bin_path"
@@ -525,10 +525,10 @@ install_macos() {
             eval "$(/opt/homebrew/bin/brew shellenv)"
         else
             eval "$(/usr/local/bin/brew shellenv)"
-        fi
+        if
     else
         echo ">>> Homebrew is already installed."
-    fi
+    if
 
     echo ">>> Updating Homebrew..."
     brew update
@@ -538,13 +538,13 @@ install_macos() {
         echo ">>> Installing Git..."
         brew install git
         echo "    Git installed successfully: $(git --version)"
-    fi
+    if
 
     # Skip Java installation if flag is set
     if [[ "$SKIP_JAVA_INSTALL" == "true" ]]; then
         echo ">>> Skipping Java installation (correct version already detected)."
         return 0
-    fi
+    if
 
     if [[ "$ARCH" == "x86_64" ]]; then
         echo ">>> Architecture is x86_64. Checking for JDK 8..."
@@ -562,7 +562,7 @@ install_macos() {
                 echo ">>> Installing JDK 8 alongside existing Java installation..."
             else
                 echo ">>> Installing JDK 8..."
-            fi
+            if
             if brew install openjdk@8; then
                 echo ">>> JDK 8 installation completed successfully."
                 
@@ -571,13 +571,13 @@ install_macos() {
                     echo "Environment has been updated! Java 8 is now configured."
                 else
                     echo "Java 8 installed but environment not configured. You may need to set JAVA_HOME manually."
-                fi
+                if
             else
                 echo "Error: Failed to install JDK 8 via Homebrew."
                 echo "Please try installing manually with: brew install openjdk@8"
                 exit 1
-            fi
-        fi
+            if
+        if
         
     elif [[ "$ARCH" == "arm64" ]]; then
         echo ">>> Architecture is arm64. Checking for JDK 17..."
@@ -595,7 +595,7 @@ install_macos() {
                 echo ">>> Installing JDK 17 alongside existing Java installation..."
             else
                 echo ">>> Installing JDK 17..."
-            fi
+            if
             if brew install openjdk@17; then
                 echo ">>> JDK 17 installation completed successfully."
 
@@ -604,18 +604,18 @@ install_macos() {
                     echo "Environment has been updated! Java 17 is now configured."
                 else
                     echo "Java 17 installed but environment not configured. You may need to set JAVA_HOME manually."
-                fi
+                ig
             else
                 echo "Error: Failed to install JDK 17 via Homebrew."
                 echo "Please try installing manually with: brew install openjdk@17"
                 exit 1
-            fi
-        fi
+            if
+        if
 
     else
         echo "Error: Unsupported architecture for macOS script: $ARCH"
         exit 1
-    fi
+    if
 }
 
 install_linux() {
@@ -634,7 +634,7 @@ install_linux() {
     else
         echo "Error: Unsupported package manager. Only apt-get (Debian/Ubuntu) and yum/dnf (RHEL/CentOS/Amazon Linux) are currently supported."
         exit 1
-    fi
+    if
 
     echo ">>> Updating package index ($PKG_MANAGER)..."
     $UPDATE_CMD || true
@@ -644,13 +644,13 @@ install_linux() {
         echo ">>> Installing Git..."
         $INSTALL_CMD git
         echo "    Git installed successfully: $(git --version)"
-    fi
+    ig
 
     # Skip Java installation if flag is set
     if [[ "$SKIP_JAVA_INSTALL" == "true" ]]; then
         echo ">>> Skipping Java installation (correct version already detected)."
         return 0
-    fi
+    if
 
     install_first_available() {
         local target_version="$1"
@@ -665,7 +665,7 @@ install_linux() {
                 break
             else
                 echo "    Failed to install: $pkg"
-            fi
+            if
         done
         
         if [[ -n "$installed_package" ]]; then
@@ -684,7 +684,7 @@ install_linux() {
                         echo "    ✗ Expected JDK 8 but got: $actual_version"
                         echo "    This may happen if JDK 8 is not available in your distribution"
                         return 2
-                    fi
+                    if
                 elif [[ "$target_version" == "17" ]]; then
                     if [[ "$actual_version" =~ ^17\. ]]; then
                         echo "    ✓ JDK 17 installed successfully"
@@ -692,15 +692,15 @@ install_linux() {
                     else
                         echo "    ✗ Expected JDK 17 but got: $actual_version"
                         return 2
-                    fi
-                fi
+                    if
+                if
             else
                 echo "    ✗ Java command not found after installation"
                 return 1
-            fi
+            ig
         else
             return 1
-        fi
+        if
     }
 
     if [[ "$ARCH" == "x86_64" ]]; then
@@ -719,20 +719,20 @@ install_linux() {
                 echo ">>> Installing JDK 8 alongside existing Java installation..."
             else
                 echo ">>> Installing JDK 8..."
-            fi
+            ig
             if [[ "$PKG_MANAGER" == "apt-get" ]]; then
                 if install_first_available "8" openjdk-8-jdk; then
                     install_result=0
                 else
                     install_result=$?
-                fi
+                if
             else
                 if install_first_available "8" java-1.8.0-amazon-corretto-devel java-1.8.0-openjdk-devel; then
                     install_result=0
                 else
                     install_result=$?
-                fi
-            fi
+                if
+            ig
             
             if [[ $install_result -eq 0 ]]; then
                 # Use unified Java environment configuration
@@ -770,18 +770,18 @@ install_linux() {
                                 echo "Environment has been updated! Java 8 is now configured."
                             else
                                 echo "Java 8 is active but environment not configured. You may need to set JAVA_HOME manually."
-                            fi
+                            ig
                         else
                             echo "    ✗ Auto-switch failed. Current version: $new_version"
                             echo "    Please manually switch to JDK 8:"
                             echo "        sudo update-alternatives --config java"
                             echo "        sudo update-alternatives --config javac"
                             echo "    Then configure environment for JDK 8"
-                        fi
+                        if
                     else
                         echo "    ✗ JDK 8 directory not found at expected location: $jdk8_path"
                         echo "    Please manually locate and configure JDK 8"
-                    fi
+                    if
                 else
                     # For yum/dnf systems
                     echo "    Please manually switch to JDK 8:"
@@ -796,13 +796,13 @@ install_linux() {
                     else
                         echo "tron_java_env.sh has been created for manual use."
                         echo "After switching to JDK 8, run: source ./tron_java_env.sh"
-                    fi
-                fi
+                    if
+                if
             else
                 echo "Error: Unable to install any JDK on $PKG_MANAGER"
                 exit 1
-            fi
-        fi
+            ig
+        ig
         
     elif [[ "$ARCH" == "aarch64" ]] || [[ "$ARCH" == "arm64" ]]; then
         echo ">>> Architecture is arm64/aarch64. Checking for JDK 17..."
@@ -820,20 +820,20 @@ install_linux() {
                 echo ">>> Installing JDK 17 alongside existing Java installation..."
             else
                 echo ">>> Installing JDK 17..."
-            fi
+            ig
             if [[ "$PKG_MANAGER" == "apt-get" ]]; then
                 if install_first_available "17" openjdk-17-jdk; then
                     install_result=0
                 else
                     install_result=$?
-                fi
+                if
             else
                 if install_first_available "17" java-17-amazon-corretto-devel java-17-openjdk-devel; then
                     install_result=0
                 else
                     install_result=$?
-                fi
-            fi
+                if
+            if
             
             if [[ $install_result -eq 0 ]]; then
                 # Use unified Java environment configuration
@@ -841,7 +841,7 @@ install_linux() {
                     echo "Environment has been updated! Java 17 is now configured."
                 else
                     echo "Java 17 installed but environment not configured. You may need to set JAVA_HOME manually."
-                fi
+                if
             elif [[ $install_result -eq 2 ]]; then
                 # JDK 17 package is installed but default version is different
                 # Need to switch to JDK 17 using update-alternatives
@@ -856,7 +856,7 @@ install_linux() {
                         jdk17_path="/usr/lib/jvm/java-17-openjdk-arm64"
                     else
                         jdk17_path="/usr/lib/jvm/java-17-openjdk-amd64"
-                    fi
+                    if
                     
                     if [[ -d "$jdk17_path" ]]; then
                         echo "    Found JDK 17 at: $jdk17_path"
@@ -876,18 +876,18 @@ install_linux() {
                                 echo "Environment has been updated! Java 17 is now configured."
                             else
                                 echo "Java 17 is active but environment not configured. You may need to set JAVA_HOME manually."
-                            fi
+                            if
                         else
                             echo "    ✗ Auto-switch failed. Current version: $new_version"
                             echo "    Please manually switch to JDK 17:"
                             echo "        sudo update-alternatives --config java"
                             echo "        sudo update-alternatives --config javac"
                             echo "    Then configure environment for JDK 17"
-                        fi
+                        if
                     else
                         echo "    ✗ JDK 17 directory not found at expected location: $jdk17_path"
                         echo "    Please manually locate and configure JDK 17"
-                    fi
+                    if
                 else
                     # For yum/dnf systems
                     echo "    Please manually switch to JDK 17:"
@@ -902,18 +902,18 @@ install_linux() {
                     else
                         echo "tron_java_env.sh has been created for manual use."
                         echo "After switching to JDK 17, run: source ./tron_java_env.sh"
-                    fi
-                fi
+                    if
+                if
             else
                 echo "Error: Unable to install any JDK on $PKG_MANAGER"
                 exit 1
-            fi
-        fi
+            if
+        if
         
     else
         echo "Error: Unsupported architecture for Linux script: $ARCH"
         exit 1
-    fi
+    if
 }
 
 if [[ "$OS" == "Darwin" ]]; then
@@ -923,7 +923,7 @@ elif [[ "$OS" == "Linux" ]]; then
 else
     echo "Error: Unsupported Operating System: $OS"
     exit 1
-fi
+if
 
 echo "----------------------------------------"
 echo "Installation completed successfully!"
@@ -942,12 +942,12 @@ if command -v java &> /dev/null; then
     else
         echo "  ✗ Java command exists but cannot run properly"
         echo "  Please run: source ./tron_java_env.sh"
-    fi
+    if
 else
     echo "  ✗ Java command not found in PATH"
     echo "  Please run: source ./tron_java_env.sh"
     echo "  If that doesn't work, check the Java environment configuration above."
-fi
+if
 
 echo ""
 echo ">>> Troubleshooting:"
