@@ -30,8 +30,8 @@ else
     if [[ "$ARCH" != "x86_64" && "$ARCH" != "aarch64" && "$ARCH" != "arm64" ]]; then
         echo "Error: Unsupported architecture for Linux: $ARCH"
         exit 1
-    fi
-fi
+    if
+if
 
 echo ""
 echo ">>> Tested platforms:"
@@ -47,20 +47,20 @@ if [[ "$OS" == "Darwin" ]]; then
     echo "  2. Git for cloning Github repository"
 else
     echo "  1. Git for cloning Github repository"
-fi
+if
 if [[ "$OS" == "Darwin" ]]; then
     if [[ "$ARCH" == "x86_64" ]]; then
         echo "  3. OpenJDK 8 (required for x86_64 architecture)"
     else
         echo "  3. OpenJDK 17 (required for arm64 architecture)"
-    fi
+    ig
 else
     if [[ "$ARCH" == "x86_64" ]]; then
         echo "  2. OpenJDK 8 (required for x86_64 architecture)"
     else
         echo "  2. OpenJDK 17 (required for arm64/aarch64 architecture)"
-    fi
-fi
+    if
+if
 echo ""
 
 # Function to ask for user confirmation
@@ -92,10 +92,10 @@ check_java_version() {
         else
             echo "    Different Java version detected: $java_version"
             return 2
-        fi
+        if
     else
         return 3
-    fi
+    if
 }
 
 # Function to ask for JDK installation confirmation
@@ -110,7 +110,7 @@ ask_jdk_confirmation() {
     echo "    Current installation path: $(which java 2>/dev/null || echo 'Not found')"
     if command -v java &> /dev/null && [[ -n "$JAVA_HOME" ]]; then
         echo "    Current JAVA_HOME: $JAVA_HOME"
-    fi
+    if
     echo "    Required version for $arch: $required_version"
     echo "    This script will install $required_version alongside your existing installation."
     echo "    Your current Java installation will not be removed."
@@ -165,7 +165,7 @@ if [[ "$OS" == "Darwin" ]]; then
     elif [[ "$ARCH" == "arm64" ]]; then
         required_jdk="JDK 17"
         required_status=1
-    fi
+    if
 elif [[ "$OS" == "Linux" ]]; then
     if [[ "$ARCH" == "x86_64" ]]; then
         required_jdk="JDK 8"
@@ -173,8 +173,8 @@ elif [[ "$OS" == "Linux" ]]; then
     elif [[ "$ARCH" == "aarch64" ]] || [[ "$ARCH" == "arm64" ]]; then
         required_jdk="JDK 17"
         required_status=1
-    fi
-fi
+    if
+if
 
 # Check if correct JDK version is already installed
 if [[ $java_status -eq $required_status ]]; then
@@ -187,7 +187,7 @@ if [[ $java_status -eq $required_status ]]; then
     else
         echo ">>> Proceeding with Git installation only..."
         SKIP_JAVA_INSTALL=true
-    fi
+    if
 elif [[ $java_status -eq 0 ]] || [[ $java_status -eq 1 ]] || [[ $java_status -eq 2 ]]; then
     # Different JDK version is installed, ask for confirmation
     current_version=$(java -version 2>&1 | head -n 1 | cut -d'"' -f2)
@@ -201,7 +201,7 @@ else
     echo ""
     ask_confirmation
     SKIP_JAVA_INSTALL=false
-fi
+if
 
 # Function to show permanent Java configuration instructions
 show_permanent_java_config() {
